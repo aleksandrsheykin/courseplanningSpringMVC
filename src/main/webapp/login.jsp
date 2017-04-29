@@ -1,3 +1,4 @@
+<%@ page import="main.utils.ErrorManager" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -35,21 +36,30 @@
             <div class="col-md-4"></div>
             <div class="col-md-4">
 
-                <% String errorMsg = (String) request.getAttribute("errorMsg"); %>
+                <% String errorMsg = ""; %>
+                <%--<% String errorMsg = ((ErrorManager) request.getAttribute("error")).getMsg(); %>--%>
+                <%--<% String errorMsg = error.getMsg(); %>--%>
+
+                <%--<% String errorMsg = null; %>
+                <c:if test="${error.msg}">
+                    <% errorMsg = "asdf"; %>
+                </c:if>--%>
 
                 <form class="form" role="form" action="login" method="post">
                     <h2 class="form-signin-heading">Login</h2>
-                    <div class="form-group <%=(errorMsg != null)?"has-error":"" %>">
+                    <div class="form-group <%=(errorMsg != "")?"has-error":"" %>">
                         <input type="email" class="form-control" placeholder="Mail" name="login" required autofocus>
                     </div>
-                    <div class="form-group <%=(errorMsg != null)?"has-error":"" %>">
+                    <div class="form-group <%=(errorMsg != "")?"has-error":"" %>">
                         <input type="password" class="form-control" placeholder="Password" name="password" required>
                     </div>
                     <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit">login</button>
                 </form>
-                <% if(errorMsg != null) {%>
-                    <div class="alert alert-danger"><%=errorMsg%></div>
-                <% } %>
+
+                <div class="alert alert-danger">${error.msg}</div>
+                <%--<c:if test="${error.msg}">
+                    <div class="alert alert-danger">${error.msg}</div>
+                </c:if>--%>
 
             </div>
             <div class="col-md-4"></div>

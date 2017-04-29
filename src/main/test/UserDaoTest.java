@@ -6,6 +6,8 @@ import main.models.pojo.User;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.sql.SQLException;
+
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -23,11 +25,19 @@ public class UserDaoTest {
 
     @Test
     public void TestDaoUser() {
-        userEthalon = userDaoEthalon.insert("test", "test", "ttt@ttt.ru", "123", 1);
+        try {
+            userEthalon = userDaoEthalon.insert("test", "test", "ttt@ttt.ru", "123", 1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         assertTrue("test".equals(userEthalon.getFirstName()));
         assertTrue("test".equals(userEthalon.getLastName()));
         assertTrue(userEthalon.getLimit() == 1);
-        userDaoEthalon.delete(userEthalon);
+        try {
+            userDaoEthalon.delete(userEthalon);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 

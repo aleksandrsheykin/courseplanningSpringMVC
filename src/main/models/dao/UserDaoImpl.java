@@ -20,7 +20,7 @@ public class UserDaoImpl implements UserDao {
 
     private static Logger logger = Logger.getLogger(UserDaoImpl.class);
 
-    public List<User> getAll() {
+    public List<User> getAll() throws SQLException {
         Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select *"+
@@ -48,11 +48,11 @@ public class UserDaoImpl implements UserDao {
 
         } catch (SQLException e) {
             logger.warn("SQLException in User.getAll()");
-            return null;
+            throw e;
         }
     }
 
-    public User getUser(int id) {
+    public User getUser(int id) throws SQLException {
         Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select *"+
@@ -77,11 +77,11 @@ public class UserDaoImpl implements UserDao {
 
         } catch (SQLException e) {
             logger.warn("SQLException in User.get()");
-            return null;
+            throw e;
         }
     }
 
-    public User getUser(String mail) {
+    public User getUser(String mail) throws SQLException {
         Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select *"+
@@ -109,11 +109,11 @@ public class UserDaoImpl implements UserDao {
 
         } catch (SQLException e) {
             logger.warn("SQLException in User.get()");
-            return null;
+            throw e;
         }
     }
 
-    public boolean update(User user) {
+    public boolean update(User user) throws SQLException {
         Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET(" +
@@ -132,12 +132,18 @@ public class UserDaoImpl implements UserDao {
             return true;
         } catch (SQLException e) {
             logger.warn("SQLException in User.update()");
-            return false;
+            throw e;
         }
     }
 
-    public boolean delete(User user) {
-        Connection connection = DBConnection.getConnection();
+    public boolean delete(User user) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = DBConnection.getConnection();
+        } catch (SQLException e) {
+            logger.warn("SQLException");
+            throw e;
+        }
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("Delete from users " +
                     " WHERE id = ?");
@@ -151,7 +157,7 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    public boolean insert(String firsName, String lastName, String mail, String password, Integer limit, boolean isAdmin, Integer idUser, boolean isBlocked) {
+    public boolean insert(String firsName, String lastName, String mail, String password, Integer limit, boolean isAdmin, Integer idUser, boolean isBlocked) throws SQLException {
         Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("insert users (" +
@@ -170,11 +176,11 @@ public class UserDaoImpl implements UserDao {
             return true;
         } catch (SQLException e) {
             logger.warn("SQLException in User.insert()");
-            return false;
+            throw e;
         }
     }
 
-    public User insert(String firsName, String lastName, String mail, String password, Integer limit) {
+    public User insert(String firsName, String lastName, String mail, String password, Integer limit) throws SQLException {
         Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("insert into users (" +
@@ -205,11 +211,11 @@ public class UserDaoImpl implements UserDao {
             return user;
         } catch (SQLException e) {
             logger.warn("SQLException in User.insert()");
-            return null;
+            throw e;
         }
     }
 
-    public User auth(String login, String password) {
+    public User auth(String login, String password) throws SQLException {
         User user = getUser(login);
         if (user != null && BCrypt.checkpw(password, user.getPassword())) {
             return user;
@@ -217,11 +223,11 @@ public class UserDaoImpl implements UserDao {
         return null;
     }
 
-    public boolean userExist(String mail) {
+    public boolean userExist(String mail) throws SQLException {
         return getUser(mail)!=null?true:false;
     }
 
-    public User findUserByLoginAndPassword(String login, String password) {
+    public User findUserByLoginAndPassword(String login, String password) throws SQLException {
         Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement preparedStatement = connection
@@ -248,7 +254,7 @@ public class UserDaoImpl implements UserDao {
             return null;
         } catch (SQLException e) {
             logger.warn("SQLException in User.findUserByLoginAndPassword()");
-            return null;
+            throw e;
         }
     }
 }

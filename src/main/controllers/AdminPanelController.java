@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * Created by admin on 22.04.2017.
@@ -23,7 +24,11 @@ public class AdminPanelController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/adminPanel.jsp");
-        req.setAttribute("userList", userService.getAllUsers());
+        try {
+            req.setAttribute("userList", userService.getAllUsers());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         dispatcher.forward(req, resp);
     }
 

@@ -8,6 +8,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -18,8 +19,15 @@ public class UserServiceImpl implements UserService {
     private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
     private static UserDao userDao = new UserDaoImpl();
 
-    public User auth(String login, String password) {
-        User user = userDao.auth(login, password);
+    public User auth(String login, String password) throws SQLException {
+        User user = null;
+        try {
+            user = userDao.auth(login, password);
+        } catch (SQLException e) {
+            logger.error("SQLException in UserServiceImpl.auth()");
+            throw e;
+        }
+
         if (user == null) {
             return null;
         }
@@ -27,21 +35,42 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    public User registration(String mail, String password, String firstName, String lastName, Integer limit) {
-        User user = userDao.insert(firstName, lastName, mail, password, limit);
+    public User registration(String mail, String password, String firstName, String lastName, Integer limit) throws SQLException {
+        User user = null;
+        try {
+            user = userDao.insert(firstName, lastName, mail, password, limit);
+        } catch (SQLException e) {
+            logger.error("SQLException in UserServiceImpl.registration()");
+            throw e;
+        }
         return user;
     }
 
-    public User getUserById(int id) {
-        return userDao.getUser(id);
+    public User getUserById(int id) throws SQLException {
+        try {
+            return userDao.getUser(id);
+        } catch (SQLException e) {
+            logger.error("SQLException in UserServiceImpl.getUserById()");
+            throw e;
+        }
     }
 
-    public List<User> getAllUsers() {
-        return userDao.getAll();
+    public List<User> getAllUsers() throws SQLException {
+        try {
+            return userDao.getAll();
+        } catch (SQLException e) {
+            logger.error("SQLException in UserServiceImpl.getAllUsers()");
+            throw e;
+        }
     }
 
-    public boolean userExist(String mail) {
-        return userDao.userExist(mail);
+    public boolean userExist(String mail) throws SQLException {
+        try {
+            return userDao.userExist(mail);
+        } catch (SQLException e) {
+            logger.error("SQLException in UserServiceImpl.userExist()");
+            throw e;
+        }
     }
 
     public HttpServletRequest sendErrorAndParameters(HttpServletRequest req, String errorMsg, String errorInputs) {

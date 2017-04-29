@@ -2,6 +2,7 @@ package main.services;
 
 import main.models.pojo.Plan;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -9,6 +10,6 @@ import java.util.List;
  */
 public interface PlanService {
 
-    public List<Plan> getAllPlans();
-    public boolean deletePlanById(Integer id);
+    public List<Plan> getAllPlans() throws SQLException;
+    public boolean deletePlanById(Integer id) throws SQLException;
 }

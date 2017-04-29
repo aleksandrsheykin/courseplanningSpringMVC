@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * Created by admin on 26.04.2017.
@@ -22,7 +23,12 @@ public class ProductController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Integer userId = (Integer) ((HttpServletRequest) req).getSession().getAttribute("userId");
-        User user = userService.getUserById(userId);
+        User user = null;
+        try {
+            user = userService.getUserById(userId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         req.setAttribute("userIsAdmin", user.getIsAdmin());
         req.setAttribute("userName", user.getFirstName()+" "+user.getLastName());
 

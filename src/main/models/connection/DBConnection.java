@@ -67,12 +67,12 @@ public class DBConnection {
         datasource.setPoolProperties(p);
     }
 
-    public static Connection getConnection() {
+    public static Connection getConnection() throws SQLException {
         try {
             return datasource.getConnection();
         } catch (SQLException e) {
             logger.error("SQLException in DBConnection.getConnection()");
-            return null;
+            throw e;
         }
     }
 }

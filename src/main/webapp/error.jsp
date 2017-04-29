@@ -38,7 +38,7 @@
             <div class="col-md-6">
 
                 <H1>ERROR</H1>
-                <h2>Видимо что-то случилось (:</h2>
+                <h2>${error.msg}</h2>
 
             </div>
             <div class="col-md-3"></div>

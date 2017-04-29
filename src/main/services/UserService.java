@@ -4,6 +4,7 @@ import main.models.pojo.User;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -11,11 +12,11 @@ import java.util.List;
  */
 public interface UserService {
 
-    User auth(String login, String password);
-    User registration(String mail, String password, String firstName, String lastName, Integer limit);
-    List<User> getAllUsers();
-    User getUserById(int id);
-    boolean userExist(String mail);
+    User auth(String login, String password) throws SQLException;
+    User registration(String mail, String password, String firstName, String lastName, Integer limit) throws SQLException;
+    List<User> getAllUsers() throws SQLException;
+    User getUserById(int id) throws SQLException;
+    boolean userExist(String mail) throws SQLException;
     HttpServletRequest sendErrorAndParameters(HttpServletRequest req, String errorMsg, String errorInputs);
     HttpServletRequest sendErrorAndParametersMVC(HttpServletRequest req, String errorMsg, String errorInputs, Model model);
 

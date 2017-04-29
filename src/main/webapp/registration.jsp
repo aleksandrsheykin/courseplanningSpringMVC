@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="form-group <%=(limitError != null)?"has-error":"" %>">
-                        <input type="number" class="form-control" placeholder="limit" name="limit" min="1" max="2147483646" step="1000" required
+                        <input type="number" class="form-control" placeholder="limit" name="limit" min="0" max="2147483646" step="1000" value="1000" required
                             <%=(errorMsg != null)?"value='"+request.getAttribute("limit")+"'":"" %> >
                     </div>
 
@@ -73,9 +73,11 @@
                     </div>
                 </form>
 
-                <%if(errorMsg != null) {%>
-                    <div class="alert alert-danger"><%=errorMsg%></div>
-                <% } %>
+                <c:if test="${not empty error}">
+                    <div class="alert alert-danger">${error.msg}</div>
+                </c:if>
+
+
             </div>
             <div class="col-md-4"></div>
         </div>
