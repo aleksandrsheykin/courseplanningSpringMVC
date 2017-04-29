@@ -125,7 +125,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(4, user.getPassword());
             preparedStatement.setInt(5, user.getLimit());
             preparedStatement.setBoolean(6, user.getIsAdmin());
-            preparedStatement.setBoolean(7, user.isBlocked());
+            preparedStatement.setBoolean(7, user.getIsBlocked());
             preparedStatement.setInt(8, user.getIdUser());
             preparedStatement.executeQuery();
             preparedStatement.close();

@@ -5,6 +5,7 @@ import main.models.dao.UserDaoImpl;
 import main.models.pojo.User;
 import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -18,9 +19,7 @@ public class UserServiceImpl implements UserService {
     private static UserDao userDao = new UserDaoImpl();
 
     public User auth(String login, String password) {
-        //logger.warn("SSEERVVICE u and p="+login+" "+password);
         User user = userDao.auth(login, password);
-        //logger.warn("SSEERVVICE user="+user);
         if (user == null) {
             return null;
         }
@@ -59,6 +58,23 @@ public class UserServiceImpl implements UserService {
         if (errorInputs.contains("mail")) req.setAttribute("mailError", "1");
 
         req.setAttribute("errorMsg", errorMsg);
+        return req;
+    }
+
+    public HttpServletRequest sendErrorAndParametersMVC(HttpServletRequest req, String errorMsg, String errorInputs, Model model) {
+        model.addAttribute("firstName", req.getParameter("firstName"));
+        if (errorInputs.contains("firstName")) model.addAttribute("firstNameError", "1");
+
+        model.addAttribute("lastName", req.getParameter("lastName"));
+        if (errorInputs.contains("lastName")) model.addAttribute("lastNameError", "1");
+
+        model.addAttribute("limit", req.getParameter("limit"));
+        if (errorInputs.contains("limit")) model.addAttribute("limitError", "1");
+
+        model.addAttribute("mail", req.getParameter("mail"));
+        if (errorInputs.contains("mail")) model.addAttribute("mailError", "1");
+
+        model.addAttribute("errorMsg", errorMsg);
         return req;
     }
 }

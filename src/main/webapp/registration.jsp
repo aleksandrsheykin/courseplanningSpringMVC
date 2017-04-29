@@ -45,17 +45,17 @@
                     <h2 class="form-signin-heading">Registration</h2>
 
                     <div class="form-group <%=(firstNameError != null)?"has-error":"" %>">
-                        <input type="text" class="form-control" placeholder="firstName" name="firstName" pattern=".{4,128}" required autofocus
+                        <input type="text" class="form-control" placeholder="firstName" name="firstName" pattern=".{2,128}" required autofocus
                             <%=(errorMsg != null)?"value='"+request.getAttribute("firstName")+"'":"" %> >
                     </div>
 
                     <div class="form-group <%=(lastNameError != null)?"has-error":"" %>">
-                        <input type="text" class="form-control" placeholder="lastName" name="lastName" pattern=".{4,128}" required
+                        <input type="text" class="form-control" placeholder="lastName" name="lastName" pattern=".{2,128}" required
                             <%=(errorMsg != null)?"value='"+request.getAttribute("lastName")+"'":"" %> >
                     </div>
 
                     <div class="form-group <%=(limitError != null)?"has-error":"" %>">
-                        <input type="number" class="form-control" placeholder="limit" name="limit" min="1" max="2147483646" required
+                        <input type="number" class="form-control" placeholder="limit" name="limit" min="1" max="2147483646" step="1000" required
                             <%=(errorMsg != null)?"value='"+request.getAttribute("limit")+"'":"" %> >
                     </div>
 

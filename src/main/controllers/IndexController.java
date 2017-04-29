@@ -1,5 +1,6 @@
 package main.controllers;
 
+import main.models.pojo.User;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,8 +21,13 @@ import java.io.IOException;
 public class IndexController {
     private static Logger logger = Logger.getLogger(IndexController.class);
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String showIndexPage() {
+    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
+    public String showIndexPage(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        User user = (User) req.getSession().getAttribute("user");
+
+        if (user != null) {
+            resp.sendRedirect(req.getContextPath() + "/main");
+        }
         return "login";
     }
 

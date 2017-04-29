@@ -20,9 +20,11 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="index">Index</a></li>
-                <li><a href="main">Main</a></li>
-                <li class="active"><a href="login">Login</a></li>
+                <li class="active"><a href="main">Main</a></li>
+                <li><a href="login">Login</a></li>
                 <li><a href="registration">Registration</a></li>
+                <li><a href="admin">AdminPanel</a></li>
+                <li><a href="logout">Logout</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -32,30 +34,19 @@
 
     <div class="starter-template">
         <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
 
-                <% String errorMsg = (String) request.getAttribute("errorMsg"); %>
-
-                <form class="form" role="form" action="login" method="post">
-                    <h2 class="form-signin-heading">Login</h2>
-                    <div class="form-group <%=(errorMsg != null)?"has-error":"" %>">
-                        <input type="email" class="form-control" placeholder="Mail" name="login" required autofocus>
-                    </div>
-                    <div class="form-group <%=(errorMsg != null)?"has-error":"" %>">
-                        <input type="password" class="form-control" placeholder="Password" name="password" required>
-                    </div>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit">login</button>
-                </form>
-                <% if(errorMsg != null) {%>
-                    <div class="alert alert-danger"><%=errorMsg%></div>
-                <% } %>
+                <H1>ERROR 404</H1>
+                <h2>Видимо что-то случилось (:</h2>
 
             </div>
-            <div class="col-md-4"></div>
+            <div class="col-md-3"></div>
         </div>
     </div>
 </div>
 
 </body>
 </html>
+
+

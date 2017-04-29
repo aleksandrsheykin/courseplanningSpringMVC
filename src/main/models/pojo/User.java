@@ -24,11 +24,11 @@ public class User {
         this.isBlocked = isBlocked;
     }
 
-    public boolean isBlocked() {
+    public boolean getIsBlocked() {
         return isBlocked;
     }
 
-    public void setBlocked(boolean blocked) {
+    public void setIsBlocked(boolean blocked) {
         isBlocked = blocked;
     }
 
@@ -44,7 +44,7 @@ public class User {
         return isAdmin;
     }
 
-    public void setAdmin(boolean admin) {
+    public void setIsAdmin(boolean admin) {
         isAdmin = admin;
     }
 

@@ -7,6 +7,10 @@ import main.services.UserService;
 import main.services.UserServiceImpl;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,19 +22,23 @@ import java.io.IOException;
 /**
  * Created by admin on 19.04.2017.
  */
-public class MainController extends HttpServlet {
+@Controller
+public class MainController {
 
     private static Logger logger = Logger.getLogger(MainController.class);
 
     public static PlanService planService = new PlanServiceImpl();
     public static UserService userService = new UserServiceImpl();
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("planList", planService.getAllPlans());
-        req.getRequestDispatcher("/main.jsp").forward(req, resp);
+    @RequestMapping(value = "/main", method = RequestMethod.GET)
+    public String showLoginPage(Model model) {
+        model.addAttribute("planList", planService.getAllPlans());
+        return "main";
     }
 
+
+
+/*
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Integer deleteId = Integer.parseInt(req.getParameter("deleteId"));
@@ -38,6 +46,6 @@ public class MainController extends HttpServlet {
             planService.deletePlanById(deleteId);
         }
         resp.sendRedirect(req.getContextPath() + "/main");
-    }
+    }*/
 
 }

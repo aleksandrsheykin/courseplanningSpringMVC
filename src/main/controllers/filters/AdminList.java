@@ -20,15 +20,9 @@ public class AdminList implements Filter {
     }
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        String userLogin = (String) ((HttpServletRequest) servletRequest).getSession().getAttribute("userLogin");
-        String userIsAdmin = (String) ((HttpServletRequest) servletRequest).getSession().getAttribute("isAdmin");
+        User user = (User) ((HttpServletRequest) servletRequest).getSession().getAttribute("user");
 
-        if (userLogin != null && userIsAdmin != null) {
-            Integer userId = (Integer) ((HttpServletRequest) servletRequest).getSession().getAttribute("userId");
-            User user = userService.getUserById(userId);
-            servletRequest.setAttribute("userIsAdmin", user.getIsAdmin());
-            servletRequest.setAttribute("userName", user.getFirstName()+" "+user.getLastName());
-
+        if (user != null && user.getIsAdmin()) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             ((HttpServletResponse) servletResponse).sendRedirect(((HttpServletRequest) servletRequest).getContextPath() + "/");

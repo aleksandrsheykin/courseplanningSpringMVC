@@ -1,6 +1,7 @@
 package main.services;
 
 import main.models.pojo.User;
+import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -16,5 +17,6 @@ public interface UserService {
     User getUserById(int id);
     boolean userExist(String mail);
     HttpServletRequest sendErrorAndParameters(HttpServletRequest req, String errorMsg, String errorInputs);
+    HttpServletRequest sendErrorAndParametersMVC(HttpServletRequest req, String errorMsg, String errorInputs, Model model);
 
 }
