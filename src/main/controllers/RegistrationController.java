@@ -4,6 +4,7 @@ import main.models.pojo.User;
 import main.services.UserService;
 import main.services.UserServiceImpl;
 import main.utils.ErrorManager;
+import main.utils.Options;
 import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
@@ -49,12 +50,10 @@ public class RegistrationController {
                                      HttpServletRequest req, Model model) {
         ModelAndView mav = new ModelAndView();
 
-        boolean isReplay = false;
-        replay:
-        {
+        int replays = 0;
+        while (replays < Options.REPLACE_COUNT)
             try {
                 if (userService.userExist(mail)) {
-                    //userService.sendErrorAndParametersMVC(req, "User with this mail already exist", "mail", model);
                     error = new ErrorManager("User with this mail already exist");
                     mav.addObject("error", error);
                     mav.addObject("firstName", firstName);
@@ -66,17 +65,16 @@ public class RegistrationController {
                     mav.addObject("user", newUser);
                     mav.setViewName("redirect:main");
                 }
+                break;
             } catch (SQLException e) {
+                replays++;
                 logger.error("SQLException in RegistrationController.registration()");
-                if (!isReplay) {
-                    isReplay = true;
-                    break replay;
+                if (replays == Options.REPLACE_COUNT) {
+                    error.setMsg("Oh sorry! Registration error, try again later");
+                    mav.addObject("error", error);
+                    mav.setViewName("error");
                 }
-                //error = new ErrorManager("Oh sorry! Registration error, try again later");
-                error.setMsg("Oh sorry! Registration error, try again later");
-                mav.setViewName("redirect:error");
             }
-        }
 
         return mav;
     }

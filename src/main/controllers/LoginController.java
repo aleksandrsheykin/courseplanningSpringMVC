@@ -4,6 +4,7 @@ import main.models.pojo.User;
 import main.services.UserService;
 import main.services.UserServiceImpl;
 import main.utils.ErrorManager;
+import main.utils.Options;
 import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
@@ -49,25 +50,24 @@ public class LoginController {
         ModelAndView mav = new ModelAndView();
 
         User user = null;
-        boolean isReplay = false;
-        replay:
-        {
+        int replays = 0;
+        while (replays < Options.REPLACE_COUNT)
             try {
                 user = userService.auth(login, password);
+                break;
             } catch (SQLException e) {
+                replays++;
                 logger.error("SQLException in LoginController.registration()");
-                if (!isReplay) {
-                    isReplay = true;
-                    break replay;
+                if (replays == Options.REPLACE_COUNT) {
+                    error.setMsg("Oh sorry! Registration error, try again later");
+                    mav.addObject("error", error);
+                    mav.setViewName("error");
+                    return mav;
                 }
-                redirectAttributes.addFlashAttribute("error", "Oh sorry! Site crash, try again later");
-                mav.setViewName("redirect:error");
-                return mav;
             }
-        }
 
         if (user != null) {
-            mav.addObject("user", user);
+            model.addAttribute("user", user);
             mav.setViewName("redirect:main");
         } else {
             error.setMsg("Failed login");
@@ -81,5 +81,4 @@ public class LoginController {
     public ErrorManager addError() {
         return error;
     }*/
-
 }
