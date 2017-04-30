@@ -18,6 +18,4 @@ public interface UserService {
     User getUserById(int id) throws SQLException;
     boolean userExist(String mail) throws SQLException;
     HttpServletRequest sendErrorAndParameters(HttpServletRequest req, String errorMsg, String errorInputs);
-    HttpServletRequest sendErrorAndParametersMVC(HttpServletRequest req, String errorMsg, String errorInputs, Model model);
-
 }

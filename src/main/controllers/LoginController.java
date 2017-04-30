@@ -71,15 +71,15 @@ public class LoginController {
             mav.setViewName("redirect:main");
         } else {
             error.setMsg("Failed login");
-            //model.addAttribute("errorMsg", "Failed login");
-            mav.setViewName("redirect:login");
+            mav.addObject("error", error);
+            mav.setViewName("login");
         }
         return mav;
     }
 
-    @ModelAttribute(value = "error")
+/*    @ModelAttribute(value = "error") ???
     public ErrorManager addError() {
         return error;
-    }
+    }*/
 
 }

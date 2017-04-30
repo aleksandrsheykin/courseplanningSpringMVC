@@ -49,29 +49,41 @@ public class RegistrationController {
                                      HttpServletRequest req, Model model) {
         ModelAndView mav = new ModelAndView();
 
-        try {
-            if (userService.userExist(mail)) {
-                //userService.sendErrorAndParametersMVC(req, "User with this mail already exist", "mail", model);
-                error = new ErrorManager("User with this mail already exist");
-                mav.setViewName("redirect:registration");
-            } else {
-                User newUser = userService.registration(mail, password, firstName, lastName, limit);
-                mav.addObject("user", newUser);
-                mav.setViewName("redirect:main");
+        boolean isReplay = false;
+        replay:
+        {
+            try {
+                if (userService.userExist(mail)) {
+                    //userService.sendErrorAndParametersMVC(req, "User with this mail already exist", "mail", model);
+                    error = new ErrorManager("User with this mail already exist");
+                    mav.addObject("error", error);
+                    mav.addObject("firstName", firstName);
+                    mav.addObject("lastName", lastName);
+                    mav.addObject("limit", limit);
+                    mav.setViewName("registration");
+                } else {
+                    User newUser = userService.registration(mail, password, firstName, lastName, limit);
+                    mav.addObject("user", newUser);
+                    mav.setViewName("redirect:main");
+                }
+            } catch (SQLException e) {
+                logger.error("SQLException in RegistrationController.registration()");
+                if (!isReplay) {
+                    isReplay = true;
+                    break replay;
+                }
+                //error = new ErrorManager("Oh sorry! Registration error, try again later");
+                error.setMsg("Oh sorry! Registration error, try again later");
+                mav.setViewName("redirect:error");
             }
-        } catch (SQLException e) {
-            logger.error("SQLException in RegistrationController.registration()");
-            //error = new ErrorManager("Oh sorry! Registration error, try again later");
-            error.setMsg("Oh sorry! Registration error, try again later");
-            mav.setViewName("redirect:error");
         }
 
         return mav;
     }
 
-    @ModelAttribute(value = "error")
+/*    @ModelAttribute(value = "error")
     public ErrorManager addError() {
         return error;
-    }
+    }*/
 
 }

@@ -36,32 +36,44 @@
             <div class="col-md-4">
 
                 <% String errorMsg = (String) request.getAttribute("errorMsg");
-                 String firstNameError = (String) request.getAttribute("firstNameError");
-                 String lastNameError = (String) request.getAttribute("lastNameError");
-                 String limitError = (String) request.getAttribute("limitError");
-                 String mailError = (String) request.getAttribute("mailError"); %>
+                    boolean firstNameError = false;
+                    boolean lastNameError = false;
+                    boolean limitError = false;
+                    boolean mailError = false; %>
+
+                <c:if test="${not empty firstName}">
+                    <%mailError = true;%>
+                </c:if>
 
                 <form class="form" action="/planning/registration" method="post">
                     <h2 class="form-signin-heading">Registration</h2>
 
-                    <div class="form-group <%=(firstNameError != null)?"has-error":"" %>">
+                    <div class="form-group <%=firstNameError?"has-error":"" %>">
                         <input type="text" class="form-control" placeholder="firstName" name="firstName" pattern=".{2,128}" required autofocus
-                            <%=(errorMsg != null)?"value='"+request.getAttribute("firstName")+"'":"" %> >
+                            <c:if test="${not empty firstName}">
+                                    value="${firstName}"
+                            </c:if> >
                     </div>
 
-                    <div class="form-group <%=(lastNameError != null)?"has-error":"" %>">
+                    <div class="form-group <%=lastNameError?"has-error":"" %>">
                         <input type="text" class="form-control" placeholder="lastName" name="lastName" pattern=".{2,128}" required
-                            <%=(errorMsg != null)?"value='"+request.getAttribute("lastName")+"'":"" %> >
+                            <c:if test="${not empty lastName}">
+                                   value="${lastName}"
+                            </c:if> >
                     </div>
 
-                    <div class="form-group <%=(limitError != null)?"has-error":"" %>">
+                    <div class="form-group <%=limitError?"has-error":"" %>">
                         <input type="number" class="form-control" placeholder="limit" name="limit" min="0" max="2147483646" step="1000" value="1000" required
-                            <%=(errorMsg != null)?"value='"+request.getAttribute("limit")+"'":"" %> >
+                            <c:if test="${not empty limit}">
+                                   value="${limit}"
+                            </c:if> >
                     </div>
 
-                    <div class="form-group <%=(mailError != null)?"has-error":"" %>">
+                    <div class="form-group <%=mailError?"has-error":"" %>">
                         <input type="email" class="form-control" placeholder="Mail" name="mail" pattern=".{4,128}" required
-                            <%=(errorMsg != null)?"value='"+request.getAttribute("mail")+"'":"" %> >
+                            <c:if test="${not empty mail}">
+                                   value="${mail}"
+                            </c:if> >
                     </div>
 
                     <div class="form-group">
@@ -73,7 +85,7 @@
                     </div>
                 </form>
 
-                <c:if test="${not empty error}">
+                <c:if test="${not empty error.msg}">
                     <div class="alert alert-danger">${error.msg}</div>
                 </c:if>
 

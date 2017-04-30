@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userDao.userExist(mail);
         } catch (SQLException e) {
-            logger.error("SQLException in UserServiceImpl.userExist()");
+            logger.error("SQLException in UserServiceImpl.getUserById()");
             throw e;
         }
     }
@@ -90,20 +90,4 @@ public class UserServiceImpl implements UserService {
         return req;
     }
 
-    public HttpServletRequest sendErrorAndParametersMVC(HttpServletRequest req, String errorMsg, String errorInputs, Model model) {
-        model.addAttribute("firstName", req.getParameter("firstName"));
-        if (errorInputs.contains("firstName")) model.addAttribute("firstNameError", "1");
-
-        model.addAttribute("lastName", req.getParameter("lastName"));
-        if (errorInputs.contains("lastName")) model.addAttribute("lastNameError", "1");
-
-        model.addAttribute("limit", req.getParameter("limit"));
-        if (errorInputs.contains("limit")) model.addAttribute("limitError", "1");
-
-        model.addAttribute("mail", req.getParameter("mail"));
-        if (errorInputs.contains("mail")) model.addAttribute("mailError", "1");
-
-        model.addAttribute("errorMsg", errorMsg);
-        return req;
-    }
 }
