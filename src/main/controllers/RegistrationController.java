@@ -50,8 +50,7 @@ public class RegistrationController {
                                      HttpServletRequest req, Model model) {
         ModelAndView mav = new ModelAndView();
 
-        int replays = 0;
-        while (replays < Options.REPLACE_COUNT)
+        for (int replays=1; replays<=Options.REPLACE_COUNT; replays++)
             try {
                 if (userService.userExist(mail)) {
                     error = new ErrorManager("User with this mail already exist");
@@ -67,7 +66,6 @@ public class RegistrationController {
                 }
                 break;
             } catch (SQLException e) {
-                replays++;
                 logger.error("SQLException in RegistrationController.registration()");
                 if (replays == Options.REPLACE_COUNT) {
                     error.setMsg("Oh sorry! Registration error, try again later");

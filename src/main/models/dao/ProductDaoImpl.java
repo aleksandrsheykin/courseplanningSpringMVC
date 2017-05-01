@@ -1,5 +1,6 @@
 package main.models.dao;
 
+import main.controllers.listeners.NewAppStartListener;
 import main.models.connection.DBConnection;
 import main.models.pojo.Product;
 import org.apache.log4j.Logger;
@@ -19,11 +20,12 @@ public class ProductDaoImpl implements ProductDao {
 
     static {
         PropertyConfigurator.configure("log4j.properties");
+        //PropertyConfigurator.configure(NewAppStartListener.class.getClassLoader().getResource("log4j.xml"));
     }
     private static Logger logger = Logger.getLogger(ProductDaoImpl.class);
 
 
-    public List<Product> getAll() {
+    public List<Product> getAll() throws SQLException {
         Connection connection = DBConnection.initConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select *"+
@@ -34,7 +36,7 @@ public class ProductDaoImpl implements ProductDao {
             List<Product> listProduct = new ArrayList<Product>();
             while (result.next()) {
                 listProduct.add(new Product(
-                        result.getInt("product_id_"),
+                        result.getInt("product_id"),
                         result.getString("product_name"),
                         result.getString("product_description"),
                         result.getInt("product_user_id"))
@@ -45,7 +47,7 @@ public class ProductDaoImpl implements ProductDao {
 
         } catch (SQLException e) {
             logger.warn("SQLException in Product.getAll()");
-            return null;
+            throw e;
         }
     }
 

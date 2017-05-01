@@ -50,13 +50,11 @@ public class LoginController {
         ModelAndView mav = new ModelAndView();
 
         User user = null;
-        int replays = 0;
-        while (replays < Options.REPLACE_COUNT)
+        for (int replays=1; replays<=Options.REPLACE_COUNT; replays++)
             try {
                 user = userService.auth(login, password);
                 break;
             } catch (SQLException e) {
-                replays++;
                 logger.error("SQLException in LoginController.registration()");
                 if (replays == Options.REPLACE_COUNT) {
                     error.setMsg("Oh sorry! Registration error, try again later");

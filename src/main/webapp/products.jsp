@@ -40,7 +40,20 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-                //products
+
+                <table class="table table-striped">
+                    <tr>
+                        <th>name</th>
+                        <th>description</th>
+                    </tr>
+                    <c:forEach items="${requestScope.productList}" var="product">
+                        <tr>
+                            <td><c:out value="${product.name}"></c:out></td>
+                            <td><c:out value="${product.description}"></c:out></td>
+                        </tr>
+                    </c:forEach>
+                </table>
+
             </div>
             <div class="col-md-2"></div>
         </div>

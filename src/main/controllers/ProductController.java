@@ -1,13 +1,11 @@
 package main.controllers;
 
 import main.models.pojo.User;
-import main.services.PlanService;
-import main.services.PlanServiceImpl;
-import main.services.UserService;
-import main.services.UserServiceImpl;
+import main.services.*;
 import main.utils.ErrorManager;
 import main.utils.Options;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,26 +18,28 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import static main.controllers.MainController.planService;
+
 /**
  * Created by admin on 26.04.2017.
  */
+@Controller
 public class ProductController {
 
-    public static UserService userService = new UserServiceImpl();
+    public static ProductService productService = new ProductServiceImpl();
     private static Logger logger = Logger.getLogger(MainController.class);
     private ErrorManager error;
 
-    @RequestMapping(value = "/main", method = RequestMethod.GET)
+    @RequestMapping(value = "/products", method = RequestMethod.GET)
     public ModelAndView showProductPage(Model model) throws SQLException {
         ModelAndView mav = new ModelAndView();
-        int replays = 0;
-        while (replays < Options.REPLACE_COUNT)
+
+        for (int replays=1; replays<=Options.REPLACE_COUNT; replays++)
             try {
-                //model.addAttribute("planList", planService.getAllPlans());
+                model.addAttribute("productList", productService.getAllProducts());
                 break;
             } catch (SQLException e) {
-                replays++;
-                logger.error("SQLException in LoginController.registration()");
+                logger.error("SQLException in ProductController.showProductPage()");
                 if (replays == Options.REPLACE_COUNT) {
                     error.setMsg("Oh sorry! Site crash, try again later");
                     mav.addObject("error", error);
@@ -47,7 +47,8 @@ public class ProductController {
                     return mav;
                 }
             }
-        mav.setViewName("main");
+
+        mav.setViewName("products");
         return mav;
     }
 }

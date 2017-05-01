@@ -38,13 +38,12 @@ public class MainController {
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public ModelAndView showLoginPage(Model model) throws SQLException {
         ModelAndView mav = new ModelAndView();
-        int replays = 0;
-        while (replays < Options.REPLACE_COUNT)
+
+        for (int replays=1; replays<=Options.REPLACE_COUNT; replays++)
             try {
                 model.addAttribute("planList", planService.getAllPlans());
                 break;
             } catch (SQLException e) {
-                replays++;
                 logger.error("SQLException in LoginController.registration()");
                 if (replays == Options.REPLACE_COUNT) {
                     error.setMsg("Oh sorry! Site crash, try again later");
