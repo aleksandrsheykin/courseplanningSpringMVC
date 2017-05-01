@@ -28,7 +28,7 @@
                 <li><a href="logout">Logout</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><%=request.getAttribute("userName")%></a></li>
+                <li><a href="#">${user.firstName} ${user.lastName}</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -48,7 +48,6 @@
                         <th>firstName</th>
                         <th>lastName</th>
                         <th>mail</th>
-                        <%--<th>password</th>--%>
                         <th>limit</th>
                         <th>isAdmin</th>
                         <th>isBlocked</th>
@@ -60,9 +59,18 @@
                             <td><c:out value="${user.lastName}"></c:out></td>
                             <td><c:out value="${user.mail}"></c:out></td>
                             <td><c:out value="${user.limit}"></c:out></td>
-                            <td><c:out value="${user.isAdmin}"></c:out></td>
-                            <td><span class="glyphicon glyphicon-ok"></span></td>
-                            <td><span class="glyphicon glyphicon-remove"></span></td>
+                            <c:if test="${user.isAdmin}">
+                                <td><span class="glyphicon glyphicon-ok"></span></td>
+                            </c:if>
+                            <c:if test="${not user.isAdmin}">
+                                <td><span class="glyphicon glyphicon-remove"></span></td>
+                            </c:if>
+                            <c:if test="${user.isBlocked}">
+                                <td><span class="glyphicon glyphicon-ok"></span></td>
+                            </c:if>
+                            <c:if test="${not user.isBlocked}">
+                                <td><span class="glyphicon glyphicon-remove"></span></td>
+                            </c:if>
                         </tr>
                     </c:forEach>
                 </table>

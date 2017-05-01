@@ -7,6 +7,7 @@ import main.utils.ErrorManager;
 import main.utils.Options;
 import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,13 @@ import java.sql.SQLException;
 @SessionAttributes("users")
 public class RegistrationController {
     private static Logger logger = Logger.getLogger(RegistrationController.class);
-    private static UserService userService = new UserServiceImpl();
+    private UserService userService;
     private ErrorManager error = new ErrorManager("");
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String showRegistrationPage(HttpServletRequest req, HttpServletResponse resp) throws IOException {

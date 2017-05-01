@@ -5,6 +5,7 @@ import main.services.*;
 import main.utils.ErrorManager;
 import main.utils.Options;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static main.controllers.MainController.planService;
 
 /**
  * Created by admin on 26.04.2017.
@@ -26,9 +26,14 @@ import static main.controllers.MainController.planService;
 @Controller
 public class ProductController {
 
-    public static ProductService productService = new ProductServiceImpl();
+    private ProductService productService;
     private static Logger logger = Logger.getLogger(MainController.class);
     private ErrorManager error;
+
+    @Autowired
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
+    }
 
     @RequestMapping(value = "/products", method = RequestMethod.GET)
     public ModelAndView showProductPage(Model model) throws SQLException {

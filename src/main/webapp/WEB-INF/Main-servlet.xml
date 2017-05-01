@@ -16,7 +16,6 @@
     </beans:bean>
     <beans:bean id="userDao" class="main.models.dao.UserDaoImpl"/>
 
-
     <beans:bean id="planService" class="main.services.PlanServiceImpl">
         <beans:property name="planDao" ref="planDao"/>
     </beans:bean>

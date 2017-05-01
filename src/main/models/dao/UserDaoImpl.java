@@ -5,6 +5,7 @@ import main.models.pojo.User;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +17,7 @@ import java.util.List;
 /**
  * Created by admin on 19.04.2017.
  */
+@Repository
 public class UserDaoImpl implements UserDao {
 
     private static Logger logger = Logger.getLogger(UserDaoImpl.class);

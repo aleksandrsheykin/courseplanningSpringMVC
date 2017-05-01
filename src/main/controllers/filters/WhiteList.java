@@ -3,6 +3,7 @@ package main.controllers.filters;
 import main.models.pojo.User;
 import main.services.UserService;
 import main.services.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,6 @@ import java.io.IOException;
  * Created by admin on 22.04.2017.
  */
 public class WhiteList implements Filter {
-    public static UserService userService = new UserServiceImpl();
 
     public void init(FilterConfig filterConfig) throws ServletException {
 

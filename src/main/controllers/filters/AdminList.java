@@ -13,7 +13,6 @@ import java.io.IOException;
  * Created by admin on 22.04.2017.
  */
 public class AdminList implements Filter {
-    public static UserService userService = new UserServiceImpl();
 
     public void init(FilterConfig filterConfig) throws ServletException {
 

@@ -8,10 +8,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import main.models.connection.DBConnection;
+import org.springframework.stereotype.Repository;
 
 /**
  * Created by admin on 19.04.2017.
  */
+@Repository
 public class PlanDaoImpl implements PlanDao {
 
     private static Logger logger = Logger.getLogger(PlanDaoImpl.class);
