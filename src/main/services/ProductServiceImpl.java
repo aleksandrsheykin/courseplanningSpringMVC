@@ -34,4 +34,31 @@ public class ProductServiceImpl implements ProductService {
             throw e;
         }
     }
+
+    public boolean addProduct(String name, String desc) throws SQLException {
+        try {
+            return productDao.insert(name, desc);
+        } catch (SQLException e) {
+            logger.error("SQLException in ProductServiceImpl.addProduct. Signature: name="+name+" desc="+desc);
+            throw e;
+        }
+    }
+
+    public boolean editProduct(Integer id, String name, String desc) throws SQLException {
+        try {
+            return productDao.update(id, name, desc);
+        } catch (SQLException e) {
+            logger.error("SQLException in ProductServiceImpl.editProduct. Signature: name="+name+" desc="+desc+" id="+id);
+            throw e;
+        }
+    }
+
+    public boolean deleteProduct(Integer id) throws SQLException {
+        try {
+            return productDao.delete(id);
+        } catch (SQLException e) {
+            logger.error("SQLException in ProductServiceImpl.deleteProduct. Signature: id="+id);
+            throw e;
+        }
+    }
 }

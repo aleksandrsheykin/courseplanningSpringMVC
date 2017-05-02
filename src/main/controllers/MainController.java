@@ -44,7 +44,7 @@ public class MainController {
     public ModelAndView showLoginPage(Model model) throws SQLException {
         ModelAndView mav = new ModelAndView();
 
-        for (int replays=1; replays<=Options.REPLACE_COUNT; replays++)
+        for (int replays=1; replays<=Options.REPLACE_COUNT; replays++) {
             try {
                 model.addAttribute("planList", planService.getAllPlans());
                 break;
@@ -57,6 +57,7 @@ public class MainController {
                     return mav;
                 }
             }
+        }
         mav.setViewName("main");
         return mav;
     }

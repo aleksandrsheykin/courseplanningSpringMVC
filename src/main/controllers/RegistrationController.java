@@ -56,7 +56,7 @@ public class RegistrationController {
                                      HttpServletRequest req, Model model) {
         ModelAndView mav = new ModelAndView();
 
-        for (int replays=1; replays<=Options.REPLACE_COUNT; replays++)
+        for (int replays=1; replays<=Options.REPLACE_COUNT; replays++) {
             try {
                 if (userService.userExist(mail)) {
                     error = new ErrorManager("User with this mail already exist");
@@ -70,7 +70,6 @@ public class RegistrationController {
                     mav.addObject("user", newUser);
                     mav.setViewName("redirect:main");
                 }
-                break;
             } catch (SQLException e) {
                 logger.error("SQLException in RegistrationController.registration()");
                 if (replays == Options.REPLACE_COUNT) {
@@ -79,7 +78,8 @@ public class RegistrationController {
                     mav.setViewName("error");
                 }
             }
-
+            break;
+        }
         return mav;
     }
 

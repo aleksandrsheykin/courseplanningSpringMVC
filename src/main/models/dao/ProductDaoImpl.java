@@ -31,7 +31,7 @@ public class ProductDaoImpl implements ProductDao {
         Connection connection = DBConnection.initConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select *"+
-                    " from products");
+                    " from products ORDER BY product_id");
 
             ResultSet result = preparedStatement.executeQuery();
 
@@ -76,7 +76,7 @@ public class ProductDaoImpl implements ProductDao {
         }
     }
 
-    public boolean update(Product product) {
+    public boolean update(Product product) throws SQLException {
         Connection connection = DBConnection.initConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE products SET(" +
@@ -85,36 +85,68 @@ public class ProductDaoImpl implements ProductDao {
             preparedStatement.setString(1, product.getName());
             preparedStatement.setString(2, product.getDescription());
             preparedStatement.setInt(3, product.getUser_id());
-            preparedStatement.setInt(4, product.getId_product());
+            preparedStatement.setInt(4, product.getIdProduct());
             preparedStatement.executeQuery();
             return true;
         } catch (SQLException e) {
             logger.warn("SQLException in Product.update()");
-            return false;
+            throw e;
         }
     }
 
-    public boolean delete(Product product) {
+    public boolean update(Integer id, String name, String desc) throws SQLException {
+        Connection connection = DBConnection.initConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE products SET(" +
+                    " product_name, product_description, product_user_id)" +
+                    " = (?, ?, ?) WHERE product_id = ?");
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, desc);
+            preparedStatement.setInt(3, 1);
+            preparedStatement.setInt(4, id);
+            preparedStatement.executeQuery();
+            return true;
+        } catch (SQLException e) {
+            logger.warn("SQLException in Product.update()");
+            throw e;
+        }
+    }
+
+    public boolean delete(Product product) throws SQLException {
         Connection connection = DBConnection.initConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("Delete from products " +
                     " WHERE product_id = ?");
-            preparedStatement.setInt(1, product.getId_product());
+            preparedStatement.setInt(1, product.getIdProduct());
             preparedStatement.executeQuery();
             return true;
         } catch (SQLException e) {
             logger.warn("SQLException in Product.delete()");
-            return false;
+            throw e;
+        }
+    }
+
+    public boolean delete(Integer id) throws SQLException {
+        Connection connection = DBConnection.initConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("Delete from products " +
+                    " WHERE product_id = ?");
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeQuery();
+            return true;
+        } catch (SQLException e) {
+            logger.warn("SQLException in Product.delete() id="+id);
+            throw e;
         }
     }
 
     public boolean insert(Product product) {
-        Connection connection = DBConnection.initConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("insert products (" +
+            Connection connection = DBConnection.initConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into products (" +
                     " product_id, product_name, product_description, product_user_id)" +
-                    " = (?, ?, ?, ?)");
-            preparedStatement.setInt(1, product.getId_product());
+                    " values (?, ?, ?, ?)");
+            preparedStatement.setInt(1, product.getIdProduct());
             preparedStatement.setString(2, product.getName());
             preparedStatement.setString(3, product.getDescription());
             preparedStatement.setInt(4, product.getUser_id());
@@ -125,4 +157,22 @@ public class ProductDaoImpl implements ProductDao {
             return false;
         }
     }
+
+    public boolean insert(String name, String desc) throws SQLException {
+        try {
+            Connection connection = DBConnection.initConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into products " +
+                    " (product_name, product_description, product_user_id)" +
+                    " values (?, ?, ?)");
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, desc);
+            preparedStatement.setInt(3, 1);
+            preparedStatement.executeQuery();
+            return true;
+        } catch (SQLException e) {
+            logger.warn("SQLException in Product.insert() Signature: name="+name+" desc="+desc);
+            throw e;
+        }
+    }
+
 }

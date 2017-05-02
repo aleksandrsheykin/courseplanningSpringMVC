@@ -12,4 +12,7 @@ import java.util.List;
 public interface ProductService {
 
     List<Product> getAllProducts() throws SQLException;
+    boolean addProduct(String name, String desc) throws SQLException;
+    boolean editProduct(Integer id, String name, String desc) throws SQLException;
+    boolean deleteProduct(Integer id) throws SQLException;
 }

@@ -89,7 +89,6 @@
                     <div class="alert alert-danger">${error.msg}</div>
                 </c:if>
 
-
             </div>
             <div class="col-md-4"></div>
         </div>

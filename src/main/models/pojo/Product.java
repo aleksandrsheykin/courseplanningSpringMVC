@@ -4,13 +4,13 @@ package main.models.pojo;
  * Created by admin on 19.04.2017.
  */
 public class Product {
-    private Integer id_product;
+    private Integer idProduct;
     private String name;
     private String description;
     private int user_id;
 
-    public Product(Integer id_product, String name, String description, int user_id) {
-        this.id_product = id_product;
+    public Product(Integer idProduct, String name, String description, int user_id) {
+        this.idProduct = idProduct;
         this.name = name;
         this.description = description;
         this.user_id = user_id;
@@ -24,12 +24,12 @@ public class Product {
         this.user_id = user_id;
     }
 
-    public Integer getId_product() {
-        return id_product;
+    public Integer getIdProduct() {
+        return idProduct;
     }
 
-    public void setId_product(Integer id_product) {
-        this.id_product = id_product;
+    public void setIdProduct(Integer idProduct) {
+        this.idProduct = idProduct;
     }
 
     public String getName() {
