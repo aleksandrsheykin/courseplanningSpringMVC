@@ -20,31 +20,14 @@ import java.io.IOException;
  * Created by admin on 22.04.2017.
  */
 @Controller
-@SessionAttributes("user")
+@RequestMapping(value = "/logout")
 public class LogoutController {
-    private static Logger logger = Logger.getLogger(LoginController.class);
+    private static Logger logger = Logger.getLogger(LogoutController.class);
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    protected String logout(WebRequest req, SessionAttributeStore store, SessionStatus status) throws ServletException, IOException {
-
-        logger.debug("1111");
-        status.setComplete();
-        store.cleanupAttribute(req, "user");
+    @RequestMapping(method = RequestMethod.GET)
+    protected String logout(HttpServletRequest request) {
+        HttpSession session=request.getSession();
+        session.invalidate();
         return "redirect:/";
     }
-/*
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    protected void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getSession().removeAttribute("user");
-
-        resp.sendRedirect(req.getContextPath() + "/");
-    }*/
-
-/*    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getSession().removeAttribute("userLogin");
-        req.getSession().removeAttribute("isAdmin");
-
-        resp.sendRedirect(req.getContextPath() + "/");
-    }*/
 }
